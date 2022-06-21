@@ -5,7 +5,7 @@
 
     <div>
         <label>Email Address</label>
-        <input type="text" id="emailId" name="email">
+        <input type="text" id="emailId" name="username">
     </div>
 
     <div>

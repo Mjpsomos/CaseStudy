@@ -7,8 +7,8 @@
 
 
 
-<h2>PlayDates</h2>
-<h1>Expand Your Child's Social Circle</h1>
+<h2>WaterPlay</h2>
+<h1>PLay in the ocean like your inner child wants</h1>
 
 >
 

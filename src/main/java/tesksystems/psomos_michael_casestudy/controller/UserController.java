@@ -3,14 +3,18 @@ package tesksystems.psomos_michael_casestudy.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import tesksystems.psomos_michael_casestudy.database.dao.UserDao;
 import tesksystems.psomos_michael_casestudy.database.dao.UserRoleDao;
@@ -107,6 +111,37 @@ public class UserController {
 
         response.setViewName(("redirect:/login/login"));
         return response;
+    }
+    @GetMapping(value = "/user/profile")
+    public ModelAndView profile(@RequestParam(name = "searchId", required = false, defaultValue = "") String searchFirstName) {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("user/profile");
+
+        //identifies the auth user,
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+
+        User user = userDao.findByEmail(username);
+
+        log.info("Home Profile of: " + user.getId() + " " + user.getFirstName() + " " + user.getLastName());
+
+        RegisterFormBean form = new RegisterFormBean();
+
+        form.setId(user.getId());
+        form.setEmail(user.getEmail());
+        form.setFirstName(user.getFirstName());
+        form.setLastName(user.getLastName());
+        form.setTownState(user.getTownState());
+        form.setProfileDescription(user.getProfileDescription());
+        form.setFavoriteMeetUps(user.getFavoriteMeetups());
+
+        form.setProfileImg(user.getProfileImg());
+
+        response.addObject("form", form);
+
+
+        return response;
+
     }
 }
 
