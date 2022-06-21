@@ -21,6 +21,7 @@ import tesksystems.psomos_michael_casestudy.formbean.RegisterFormBean;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -76,6 +77,7 @@ public class UserController {
             log.info("form Information" + form);
             user.setEmail(form.getEmail().toLowerCase().trim());
             user.setFirstName(form.getFirstName().toLowerCase().trim());
+            user.setLastName(form.getLastName().toLowerCase().trim());
             user.setTownState(form.getTownState().toLowerCase().trim());
             user.setProfileDescription(form.getProfileDescription().toLowerCase().trim());
 
