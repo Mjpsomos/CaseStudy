@@ -3,6 +3,7 @@ package tesksystems.psomos_michael_casestudy.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,10 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import tesksystems.psomos_michael_casestudy.database.dao.UserDao;
 import tesksystems.psomos_michael_casestudy.database.dao.UserRoleDao;
@@ -143,5 +141,32 @@ public class UserController {
         return response;
 
     }
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping(value = "/login/edit/{userId}")
+    public ModelAndView editUser(@PathVariable("userId") Integer userId) throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("login/register");
+
+        User user = userDao.findById(userId);
+
+        RegisterFormBean form = new RegisterFormBean();
+
+        form.setId(user.getId());
+        form.setEmail(user.getEmail());
+        form.setFirstName(user.getFirstName());
+        form.setLastName(user.getLastName());
+        form.setTownState(user.getTownState());
+        form.setProfileDescription(user.getProfileDescription());
+        form.setFavoriteMeetUps(user.getFavoriteMeetups());
+
+        response.addObject("form", form);
+
+        log.info("User Information before update: " + form);
+
+        return response;
+    }
+
 }
+
 
