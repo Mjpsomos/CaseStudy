@@ -117,7 +117,7 @@
 
                                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                         style="z-index: 1;"
-                                        onclick="location.href='http://localhost:8080/login/edit/${form.id}'">
+                                        onclick="location.href='http://localhost:8000/login/edit/${form.id}'">
                                     Edit profile
                                 </button>
                             </div>
@@ -149,9 +149,9 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <p class="lead fw-normal mb-0">Explore</p>
-                                    <p class="mb-0"><a href="http://localhost:8080/playdatepost/userposts"
+                                    <p class="mb-0"><a href="http://localhost:8000/meetuppost/userposts"
                                                        class="text-muted">MeetupPosts</a> | <a
-                                            href="http://localhost:8080/user/mychildren" class="text-muted">View WaterSports</a></p>
+                                            href="http://localhost:8000/user/mywateractivities" class="text-muted">View WaterSports</a></p>
                                 </div>
 
                             </div>

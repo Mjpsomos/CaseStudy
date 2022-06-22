@@ -17,8 +17,7 @@
                             <div class="d-flex align-items-center mb-3 pb-1">
                                 <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
                                 <span class="h1 fw-bold mb-0"
-                                      style="color:
-rgba(54,116,224,0.9); display: block; margin:0 auto;">Add Water Sport </span>
+                                      style="color: rgb(0,0,0); display: block; margin:0 auto;">Add Water Activity </span>
                             </div>
 
 
@@ -27,14 +26,15 @@ rgba(54,116,224,0.9); display: block; margin:0 auto;">Add Water Sport </span>
 
                                 <div class="form-outline mb-4">
 
-                                    <input type="text" id="form2Example27" class="form-control form-control-lg"
+                                    <input type="text"
+                                           id="form2Example27" class="form-control form-control-lg"
                                            name="waterActivity" id="waterActivityId"
-                                           value="${waterActivityForm.waterActivity}" placeholder="Name of Water Sport"/>
+                                           value="${waterActivityForm.waterActivity}" placeholder="Name of Water Activity"/>
                                     <c:forEach items='${bindingResult.getFieldErrors("waterActivity")}' var="error">
                                         <div style="color: red">${error.getDefaultMessage()}</div>
                                     </c:forEach>
                                 </div>
-
+                                <input type="hidden" name="user_id" value="${waterActivityForm.userId}">
 
                                 <div class="form-outline mb-4">
 
@@ -43,16 +43,14 @@ rgba(54,116,224,0.9); display: block; margin:0 auto;">Add Water Sport </span>
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <%--comment--%>
                                     <input type="text" id="form2Example27" class="form-control form-control-lg"
                                            type="text" name="description" id="descriptionId"
-
-                                           value="${waterActivityForm.description}" placeholder="Optional: description"/>
+                                           value="${waterActivityForm.description}" placeholder="Optional: Description"/>
                                 </div>
 
 
                                 <button class="btn btn-dark btn-lg btn-block" type="submit"
-                                        style="background-color: #181818">Add Water Sport
+                                        style="background-color: #000000">Add Water Activity
                                 </button>
 
                             </form>
@@ -64,5 +62,7 @@ rgba(54,116,224,0.9); display: block; margin:0 auto;">Add Water Sport </span>
     </div>
 </section>
 
+
+<jsp:include page="../include/footer.jsp"/>
 
 <jsp:include page="../include/footer.jsp"/>

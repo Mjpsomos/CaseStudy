@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/pub/**", "/error/**", "/login/**", "/index", "/success/**").permitAll()
-                .antMatchers("/admin/**", "/user/**","/child/**", "/childrenattending/**", "/playdatepost/**", "/success/**").authenticated()
+                .antMatchers("/admin/**", "/user/**").authenticated()
                 .and()
                 .formLogin()
                 // this is the URL of the login page

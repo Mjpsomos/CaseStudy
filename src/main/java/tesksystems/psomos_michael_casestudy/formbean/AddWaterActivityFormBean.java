@@ -15,6 +15,8 @@ public class AddWaterActivityFormBean {
     @NotBlank(message = "You must name your water activity")
     private String waterActivity;
 
+    private Integer userId;
+
     private String image;
 
     private String description;

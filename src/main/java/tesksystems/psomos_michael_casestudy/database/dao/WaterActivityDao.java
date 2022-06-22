@@ -16,5 +16,5 @@ public interface WaterActivityDao extends JpaRepository<WaterActivity, Long> {
 
     List<WaterActivity> findWaterActivitiesByUserId(@Param("id") Integer id);
 
-//    Integer deleteBy(@Param("id") Integer id);
+    void deleteById(Integer waterActivityId);
 }
