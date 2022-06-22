@@ -18,9 +18,9 @@ public class RegisterFormBean {
 
     private Integer id;
 
-    @EmailUnique(message = "Email is already in user")
+    @EmailUnique(message = "Email is already in use")
     @NotBlank(message = "You must provide an email")
-    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message="Email format invalid with regex")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message="Email format invalid")
     private String email;
 
     @NotBlank(message = "First Name is required")

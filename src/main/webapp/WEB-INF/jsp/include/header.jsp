@@ -1,4 +1,7 @@
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -18,8 +21,82 @@
 
 <body>
 
-<div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Splash Blast</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <sec:authorize access="isAuthenticated()">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/profile">Home</a>
+                    </li>
+                    <sec:authorize access="hasAuthority('ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/user/search">Admin</a>
+                        </li>
+                    </sec:authorize>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Meetups
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/meetuppost/search">Find Meetups</a></li>
+                            <li><a class="dropdown-item" href="/user/meetupposts">Create Meetup Post</a></li>
+                            <li><a class="dropdown-item" href="/meetuppost/userposts"> MyMeetup Posts</a></li>
+                        </ul>
+                    </li>
 
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Account
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="/wateractivity/add">Add Water Craft</a></li>
+                            <li><a class="dropdown-item" href="/user/mywateractivities"> View Water Crafts</a></li>
+                        </ul>
+
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/login/logout">Logout</a>
+                    </li>
+
+
+                    <li class="nav-item">
+
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <sec:authentication property="principal.username"/>
+                        </a>
+
+                    </li>
+                </sec:authorize>
+
+
+                <sec:authorize access="!isAuthenticated()">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/login/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/login/register">Sign Up</a>
+                    </li>
+
+                </sec:authorize>
+
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+
+<hr>
 
 
