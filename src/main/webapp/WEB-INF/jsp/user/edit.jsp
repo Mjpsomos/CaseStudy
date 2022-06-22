@@ -99,7 +99,7 @@
 
                                     <div class="form-outline mb-4">
 
-                                        <label class="form-label" for="form2Example27">Favorite Meetup SPots</label>
+                                        <label class="form-label" for="form2Example27">Favorite Meetup Spots</label>
                                         <input type="text" id="form2Example27" class="form-control form-control-lg"  name="favoriteMeetUps" id="favoriteMeetUpsId" value="${form.favoriteMeetUps}"/>
 
                                     </div>

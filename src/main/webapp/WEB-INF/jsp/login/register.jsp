@@ -134,7 +134,7 @@
                                             </c:if>
                                             <c:if test="${not empty form.id}">
 
-                                                <button class="btn btn-dark btn-lg btn-block" onclick="location.href='/user/profile'" style="background-color: #f38181">Update Account</button>
+                                                <button class="btn btn-dark btn-lg btn-block" onclick="location.href='/user/profile'" style="background-color: rgba(0,0,0,0.9)">Update Account</button>
                                             </c:if>
                                         </div>
 
