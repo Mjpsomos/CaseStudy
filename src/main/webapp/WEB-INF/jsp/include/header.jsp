@@ -47,7 +47,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="/meetuppost/search">Find Meetups</a></li>
-                            <li><a class="dropdown-item" href="/user/meetupposts">Create Meetup Post</a></li>
+                            <li><a class="dropdown-item" href="/meetuppost/create">Create Meetup Post</a></li>
                             <li><a class="dropdown-item" href="/meetuppost/userposts"> MyMeetup Posts</a></li>
                         </ul>
                     </li>
