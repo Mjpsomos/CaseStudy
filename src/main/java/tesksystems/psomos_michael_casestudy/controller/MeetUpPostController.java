@@ -1,5 +1,6 @@
 package tesksystems.psomos_michael_casestudy.controller;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import tesksystems.psomos_michael_casestudy.database.dao.MeetUpPostDao;
 import tesksystems.psomos_michael_casestudy.database.dao.UserDao;
+import tesksystems.psomos_michael_casestudy.database.dao.WaterActivityDao;
 import tesksystems.psomos_michael_casestudy.database.entity.MeetUpPost;
 import tesksystems.psomos_michael_casestudy.database.entity.User;
+import tesksystems.psomos_michael_casestudy.database.entity.WaterActivity;
 import tesksystems.psomos_michael_casestudy.formbean.MeetUpPostFormBean;
 
 import javax.transaction.Transactional;
@@ -30,6 +33,9 @@ public class MeetUpPostController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private WaterActivityDao waterActivityDao;
 
     @RequestMapping(value = "/meetuppost/create", method = RequestMethod.GET)
     public ModelAndView meetUpPost() throws Exception {
@@ -146,5 +152,35 @@ public class MeetUpPostController {
         return response;
 
     }
+    @GetMapping(value = "/meetuppost/search")
+    public ModelAndView meetupPostSearch(@RequestParam(name = "searchId", required = false, defaultValue = "") String searchLocation) {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("/meetuppost/search");
+        log.info("User is searching for: " + searchLocation);
+
+
+        if (!StringUtils.isBlank(searchLocation)) {
+            List<MeetUpPost> meetUpPosts = meetUpPostDao.findMeetUpPostByLocationContainsOrderByMeetupDateDesc(searchLocation);
+            response.addObject("meetUpPosts", meetUpPosts);
+
+        } else {
+            searchLocation = "Search for Location";
+        }
+
+        response.addObject("searchValue", searchLocation);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        User user = userDao.findByEmail(username);
+
+        List<WaterActivity> userWaterActivity = waterActivityDao.findWaterActivitiesByUserId(user.getId());
+        response.addObject("userWaterActivity", userWaterActivity);
+
+
+        return response;
+    }
+
 }
+
+
 
