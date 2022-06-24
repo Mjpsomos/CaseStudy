@@ -166,7 +166,35 @@ public class UserController {
 
         return response;
     }
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping(value = "/user/profile/{userId}")
+    public ModelAndView viewTargetUserProfile(@PathVariable("userId") Integer userId) throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("/user/targetprofile");
 
+        User user = userDao.findById(userId);
+
+        RegisterFormBean form = new RegisterFormBean();
+
+        form.setId(user.getId());
+        form.setEmail(user.getEmail());
+        form.setFirstName(user.getFirstName());
+        form.setLastName(user.getLastName());
+        form.setTownState(user.getTownState());
+        form.setProfileDescription(user.getProfileDescription());
+        form.setFavoriteMeetUps(user.getFavoriteMeetups());
+
+        form.setProfileImg(user.getProfileImg());
+
+        response.addObject("form", form);
+
+        log.info("Currently Viewing Profile of" + " " + user.getId() + " " + user.getFirstName() + " " + user.getLastName());
+
+        return response;
+
+    }
 }
+
+
 
 

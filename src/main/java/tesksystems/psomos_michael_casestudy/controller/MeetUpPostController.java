@@ -179,8 +179,26 @@ public class MeetUpPostController {
 
         return response;
     }
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping(value = "/meetuppost/userposts/{userId}")
+    public ModelAndView viewTargetUserPosts(@PathVariable("userId") Integer userId) throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("meetuppost/targetposts");
+
+        User user = userDao.findById(userId);
+
+
+        List<MeetUpPost> postList = meetUpPostDao.findMeetUpPostByUserIdOrderByMeetupDateDesc(user.getId());
+
+        response.addObject("postList", postList);
+
+        return response;
+
+    }
+
 
 }
+
 
 
 

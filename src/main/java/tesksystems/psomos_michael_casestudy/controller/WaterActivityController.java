@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import tesksystems.psomos_michael_casestudy.database.dao.UserDao;
 import tesksystems.psomos_michael_casestudy.database.dao.WaterActivityDao;
@@ -123,6 +121,22 @@ public class WaterActivityController {
 
     }
 
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping(value = "/user/wateractivity/{userId}")
+    public ModelAndView viewTargetUserWaterActivities(@PathVariable("userId") Integer userId) throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("user/targetuserwateractivities");
 
+        User user = userDao.findById(userId);
+
+
+        List<WaterActivity> waterActivities = waterActivityDao.findWaterActivitiesByUserId(user.getId());
+        response.addObject("waterActivities", waterActivities);
+
+        waterActivities.forEach((waterActivity) -> log.info("Water Activity: " + waterActivity.getWaterActivity()));
+
+        return response;
+
+    }
 
 }
