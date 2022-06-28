@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ErrorController {
 
     @RequestMapping(value = "/error/404")
+    // Returns 404 page if no URL found
     public String error404(HttpServletRequest request) {
 
         String originalUrl = (String) request.getAttribute("javax.servlet.forward.request_uri");
@@ -26,6 +27,7 @@ public class ErrorController {
 
 
     @ExceptionHandler(Exception.class)
+    // Handles 500 page errors caused by stacktrace errors
     public ModelAndView handleAllExceptions(HttpServletRequest request, Exception ex) {
 
         log.error("Error page exception : " + getRequestURL(request), ex);
@@ -51,6 +53,7 @@ public class ErrorController {
         return model;
     }
 
+    //retrieves the stack trace error
     private String getHTMLStackTrace(String[] stack) {
         StringBuffer result = new StringBuffer();
 
@@ -65,6 +68,7 @@ public class ErrorController {
         return result.toString();
     }
 
+    //Gets the error URL
     private String getRequestURL(HttpServletRequest request) {
         String result = request.getRequestURL().toString();
         if (request.getQueryString() != null) {

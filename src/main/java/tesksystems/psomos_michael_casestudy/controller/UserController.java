@@ -38,6 +38,7 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Showing the registration form
     @RequestMapping(value = "/login/register" , method = RequestMethod.GET)
     public ModelAndView register() throws Exception {
         ModelAndView response = new ModelAndView();
@@ -48,6 +49,7 @@ public class UserController {
 
         return response;
     }
+    // Filled out the form
     @RequestMapping(value = "/login/registerSubmit", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView registerSubmit(@Valid RegisterFormBean form, BindingResult bindingResult) throws Exception{
         ModelAndView response = new ModelAndView();
@@ -123,6 +125,7 @@ public class UserController {
 
         log.info("Home Profile of: " + user.getId() + " " + user.getFirstName() + " " + user.getLastName());
 
+        // information is displayed on user profile page which is pulled from formbean
         RegisterFormBean form = new RegisterFormBean();
 
         form.setId(user.getId());
@@ -166,6 +169,7 @@ public class UserController {
 
         return response;
     }
+    // Viewing someone elses profile
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping(value = "/user/profile/{userId}")
     public ModelAndView viewTargetUserProfile(@PathVariable("userId") Integer userId) throws Exception {

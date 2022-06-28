@@ -37,6 +37,7 @@ public class MeetUpPostController {
     @Autowired
     private WaterActivityDao waterActivityDao;
 
+    // Interface for Creating a MEetup post
     @RequestMapping(value = "/meetuppost/create", method = RequestMethod.GET)
     public ModelAndView meetUpPost() throws Exception {
         ModelAndView response = new ModelAndView();
@@ -49,7 +50,7 @@ public class MeetUpPostController {
     public ModelAndView createMeetUpPost(@Valid MeetUpPostFormBean form, BindingResult bindingResult) throws Exception {
         ModelAndView response = new ModelAndView();
 
-
+    // This is showing the user existing errors if necessary
         if (bindingResult.hasErrors()) {
 
             List<String> errorMessages = new ArrayList<>();
@@ -67,18 +68,18 @@ public class MeetUpPostController {
 
             return response;
         }
-
+    //Creating a MeetUp post if the meetup post is not found
         MeetUpPost meetUpPost = meetUpPostDao.findById(form.getId());
 
         if (meetUpPost == null) {
             meetUpPost = new MeetUpPost();
         }
-
+    // gets the user email
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
 
         User user = userDao.findByEmail(username);
-
+        // Setting what they are inputting into the form
         meetUpPost.setId(form.getId());
         meetUpPost.setUserId(user.getId());
         meetUpPost.setMeetupMessage(form.getMeetupMessage().trim());
@@ -93,6 +94,7 @@ public class MeetUpPostController {
         String stringTime = time.toString();
         meetUpPost.setMeetupTime(stringTime);
 
+        // Saving the new post
         meetUpPostDao.save(meetUpPost);
 
         log.info("New Meetup Post created: " + meetUpPost);
@@ -109,10 +111,11 @@ public class MeetUpPostController {
 
         response.setViewName("meetuppost/userposts");
 
+        //Pulling the users id
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         User user = userDao.findByEmail(username);
-
+        //Pulling a list of the users meet up posts
         List<MeetUpPost> postList = meetUpPostDao.findMeetUpPostByUserIdOrderByMeetupDateDesc(user.getId());
 
         response.addObject("postList", postList);
@@ -125,6 +128,7 @@ public class MeetUpPostController {
         ModelAndView response = new ModelAndView();
         response.setViewName("meetuppost/create");
 
+        // going in a editing the post reduing the form and saving what we have changed
         MeetUpPost meetupPost = meetUpPostDao.findById(meetUpPostId);
         log.info("Editing meetup post Id: " + meetUpPostId);
         MeetUpPostFormBean form = new MeetUpPostFormBean();
@@ -144,6 +148,7 @@ public class MeetUpPostController {
     public ModelAndView removeMeetUpPost(@RequestParam(name = "id", required = false) Integer meetupPostId) throws Exception {
         ModelAndView response = new ModelAndView();
 
+        // deleting the user post and loggin it and changes the database @Transactional
         log.info("Meetup Post being removed - ID: " + meetupPostId);
         meetUpPostDao.deleteById(meetupPostId);
 
@@ -158,6 +163,7 @@ public class MeetUpPostController {
         response.setViewName("/meetuppost/search");
         log.info("User is searching for: " + searchLocation);
 
+            // Making a search by location
 
         if (!StringUtils.isBlank(searchLocation)) {
             List<MeetUpPost> meetUpPosts = meetUpPostDao.findMeetUpPostByLocationContainsOrderByMeetupDateDesc(searchLocation);
@@ -169,16 +175,20 @@ public class MeetUpPostController {
 
         response.addObject("searchValue", searchLocation);
 
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
         User user = userDao.findByEmail(username);
 
+        // lists the water activities that the current user has
         List<WaterActivity> userWaterActivity = waterActivityDao.findWaterActivitiesByUserId(user.getId());
         response.addObject("userWaterActivity", userWaterActivity);
 
 
         return response;
     }
+
+    //Allows you to see another users meetup post from their profile
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping(value = "/meetuppost/userposts/{userId}")
     public ModelAndView viewTargetUserPosts(@PathVariable("userId") Integer userId) throws Exception {

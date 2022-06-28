@@ -26,7 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                //Authorized and non-authorized can access these pages
                 .antMatchers("/pub/**", "/error/**", "/login/**", "/index").permitAll()
+                //only authorized users can access these pages.
                 .antMatchers("/admin/**", "/user/**", "/meetuppost/**","/wateractivity/**").authenticated()
                 .and()
                 .formLogin()
@@ -34,21 +36,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login/login")
                 // this is the URL where the login page will submit
                 .loginProcessingUrl("/login/loginSubmit")
+                //After a succesfull log in user will be directed to user profile
                 .defaultSuccessUrl("/user/profile")
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
                 // this is the URL to log the user out
                 .logoutUrl("/login/logout")
-                // the URL that the user goes to after they logout
+                // the URL that the user goes to after they log out
                 .logoutSuccessUrl("/login/login")
                 .and()
                 .exceptionHandling()
+                //IF there is a stack trace error or path error you will be directed to corresponding error page
                 .accessDeniedPage("/error/**");
     }
 
 
     @Bean
+    // Set user authentication details through spring security
     public DaoAuthenticationProvider getAuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
@@ -57,12 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    //Configures if the users details are authenticated
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
         auth.authenticationProvider(getAuthenticationProvider());
     }
 
     @Bean(name = "passwordEncoder")
+    //Reads encrypted passwords
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }

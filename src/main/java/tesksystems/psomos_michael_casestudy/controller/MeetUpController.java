@@ -27,11 +27,11 @@ public class MeetUpController {
     @Autowired
     private MeetUpPostDao meetUpPostDao;
 
-
+    //Interface where you register for a MeetUp Post event
     @RequestMapping(value = "/meetuppost/addwateractivityregister", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView meetupSearchRegister(@RequestParam(name = "waterActivity", required = false) Integer waterActivityId,
                                              @RequestParam(name = "meetuppost", required = false) Integer meetuppostId) throws Exception {
-
+    //Sets up search interface
         ModelAndView response = new ModelAndView();
         response.setViewName("meetuppost/search");
 
@@ -43,14 +43,16 @@ public class MeetUpController {
 
         meetup.setWaterActivity(waterActivityDao.findById(waterActivityId));
         meetup.setMeetUpPost(meetUpPostDao.findById(meetuppostId));
-
+    //Will save register MeetUp by WaterActivity Register id and Meetup post ID
         meetUpDao.save(meetup);
 
+            // Will log that the user register for meetup
         log.info("Water Activity ID: " + " " + waterActivityId + " " + "is registered for Post ID: " + " " + meetuppostId);
 
         List<MeetUp> peopleGoing = meetUpDao.findByMeetUpPostId(meetuppostId);
         Long bethere = peopleGoing.stream().count();
 
+        // will log how many people are registered
         log.info("There will be: " + bethere + " people going!");
         response.addObject("bethere", bethere);
 

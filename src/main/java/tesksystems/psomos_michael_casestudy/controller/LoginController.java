@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
+    //Sends us to the login page to input information
     @RequestMapping(value = "/login/login", method = RequestMethod.GET)
     public ModelAndView login() throws Exception{
         ModelAndView response = new ModelAndView();
