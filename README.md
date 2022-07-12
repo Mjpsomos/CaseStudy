@@ -35,7 +35,6 @@ As a user, I want to view other peoples accounts
 
 As a user, I want to edit my posts
 
-As a user, I want to delete my playdate posts
 
 As a user, I want to be able to remove a water activity
 
